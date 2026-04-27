@@ -1,2 +1,3 @@
-experiment_id,model,features,validation_f1,runtime_seconds
-exp_001,logistic_regression,lags + time,0.5569402664374732,2.5461528301239014
+experiment_id,description,val_f1,val_precision,val_recall,status,runtime_seconds
+exp_001,baseline logistic regression lags+time,0.559817,0.754926,0.444848,baseline,3.29
+exp_002,logistic regression class_weight=balanced,0.636284,0.532518,0.790276,keep,3.25
