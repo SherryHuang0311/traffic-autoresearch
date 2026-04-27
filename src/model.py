@@ -8,10 +8,12 @@ FEATURES must be a subset of columns produced by run.py:
 
 build_model() must return an sklearn-compatible estimator.
 """
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 
 FEATURES = ["SPEED", "lag_1", "lag_2", "lag_3", "HOUR", "DAY_OF_WEEK"]
 
 
 def build_model():
-    return LogisticRegression(max_iter=1000, class_weight="balanced")
+    return RandomForestClassifier(
+        n_estimators=100, max_depth=8, class_weight="balanced", random_state=42, n_jobs=-1
+    )
