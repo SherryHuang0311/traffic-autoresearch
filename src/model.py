@@ -10,7 +10,11 @@ build_model() must return an sklearn-compatible estimator.
 """
 from sklearn.ensemble import RandomForestClassifier
 
-FEATURES = ["SPEED", "lag_1", "lag_2", "lag_3", "HOUR", "DAY_OF_WEEK"]
+FEATURES = [
+    "SPEED", "lag_1", "lag_2", "lag_3", "lag_4", "lag_5", "lag_6",
+    "rolling_mean_3", "speed_diff",
+    "HOUR", "DAY_OF_WEEK",
+]
 
 
 def build_model():

@@ -2,3 +2,4 @@ experiment_id,description,val_f1,val_precision,val_recall,status,runtime_seconds
 exp_001,baseline logistic regression lags+time,0.559817,0.754926,0.444848,baseline,3.29
 exp_002,logistic regression class_weight=balanced,0.636284,0.532518,0.790276,keep,3.25
 exp_003,random forest n=100 depth=8 class_weight=balanced,0.644961,0.563075,0.754717,keep,3.93
+exp_004,random forest balanced extended features lags1-6 rolling_mean speed_diff,0.652269,0.573473,0.756168,keep,3.39
