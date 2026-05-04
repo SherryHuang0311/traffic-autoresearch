@@ -4,3 +4,10 @@ exp_002,logistic regression class_weight=balanced,0.636284,0.532518,0.790276,kee
 exp_003,random forest n=100 depth=8 class_weight=balanced,0.644961,0.563075,0.754717,keep,3.93
 exp_004,random forest balanced extended features lags1-6 rolling_mean speed_diff,0.652269,0.573473,0.756168,keep,3.39
 exp_005,HistGradientBoosting max_iter=200 depth=6 lr=0.05 balanced extended features,0.647111,0.546820,0.792453,discard,3.56
+exp_006,axis-A RF n_estimators=50 depth=8 balanced extended,0.649407,0.569475,0.755443,keep,6.70
+exp_007,axis-A RF n_estimators=200 depth=8 balanced extended,0.656632,0.578134,0.759797,keep,3.14
+exp_008,axis-B RF n_estimators=100 depth=4 balanced extended,0.652416,0.569189,0.764151,keep,2.69
+exp_009,axis-B RF n_estimators=100 depth=12 balanced extended,0.652646,0.612739,0.698113,keep,2.92
+exp_010,axis-C RF balanced depth=8 n=100 minimal features speed+lag1-3+time,0.644961,0.563075,0.754717,keep,2.76
+exp_011,axis-C RF balanced depth=8 n=100 all features incl rolling_std MONTH,0.655162,0.577114,0.757620,keep,2.87
+exp_012,axis-D RF n=100 depth=8 no class_weight extended features,0.623489,0.769723,0.523948,discard,2.80
