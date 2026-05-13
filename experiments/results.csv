@@ -11,3 +11,9 @@ exp_009,axis-B RF n_estimators=100 depth=12 balanced extended,0.652646,0.612739,
 exp_010,axis-C RF balanced depth=8 n=100 minimal features speed+lag1-3+time,0.644961,0.563075,0.754717,keep,2.76
 exp_011,axis-C RF balanced depth=8 n=100 all features incl rolling_std MONTH,0.655162,0.577114,0.757620,keep,2.87
 exp_012,axis-D RF n=100 depth=8 no class_weight extended features,0.623489,0.769723,0.523948,discard,2.80
+exp_013,week5 downsampling ratio=2:1 threshold=0.5 RF n=200 depth=8,0.658501,0.653791,0.663280,keep,3.42
+exp_014,week5 downsampling ratio=1:1 threshold=0.5 RF n=200 depth=8,0.651977,0.558140,0.783745,keep,2.96
+exp_015,week5 threshold=0.40 class_weight=balanced RF n=200 depth=8,0.640760,0.521146,0.831640,keep,3.20
+exp_016,week5 threshold=0.35 class_weight=balanced RF n=200 depth=8,0.631579,0.498322,0.862119,keep,3.11
+exp_017,week5 downsampling 2:1 + threshold=0.40 combined RF n=200 depth=8,0.655959,0.588473,0.740929,keep,3.13
+exp_018,week5 max-recall downsampling 1:1 + threshold=0.35 RF n=200 depth=8,0.623511,0.484702,0.873730,keep,2.98

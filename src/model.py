@@ -8,6 +8,8 @@ FEATURES must be a subset of columns produced by run.py:
 
 build_model() must return an sklearn-compatible estimator.
 """
+import numpy as np
+from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.ensemble import RandomForestClassifier
 
 FEATURES = [
@@ -17,7 +19,76 @@ FEATURES = [
 ]
 
 
+class UndersampledRF(BaseEstimator, ClassifierMixin):
+    """RF with random undersampling of the majority class at fit time.
+    ratio = target majority:minority ratio after sampling.
+    threshold = decision threshold on predict_proba (default 0.5).
+    """
+    def __init__(self, n_estimators=200, max_depth=8,
+                 ratio=2.0, threshold=0.5, random_state=42):
+        self.n_estimators = n_estimators
+        self.max_depth = max_depth
+        self.ratio = ratio
+        self.threshold = threshold
+        self.random_state = random_state
+
+    def fit(self, X, y):
+        X = np.array(X)
+        y = np.array(y)
+        rng = np.random.RandomState(self.random_state)
+        minority_idx = np.where(y == 1)[0]
+        majority_idx = np.where(y == 0)[0]
+        n_keep = min(int(len(minority_idx) * self.ratio), len(majority_idx))
+        sampled_maj = rng.choice(majority_idx, n_keep, replace=False)
+        idx = np.concatenate([minority_idx, sampled_maj])
+        rng.shuffle(idx)
+        self.rf_ = RandomForestClassifier(
+            n_estimators=self.n_estimators,
+            max_depth=self.max_depth,
+            random_state=self.random_state,
+            n_jobs=-1,
+        )
+        self.rf_.fit(X[idx], y[idx])
+        self.classes_ = np.array([0, 1])
+        return self
+
+    def predict(self, X):
+        proba = self.rf_.predict_proba(np.array(X))[:, 1]
+        return (proba >= self.threshold).astype(int)
+
+    def predict_proba(self, X):
+        return self.rf_.predict_proba(np.array(X))
+
+
+class ThresholdRF(BaseEstimator, ClassifierMixin):
+    """Standard RF (class_weight=balanced) with tunable decision threshold."""
+    def __init__(self, n_estimators=200, max_depth=8,
+                 threshold=0.5, random_state=42):
+        self.n_estimators = n_estimators
+        self.max_depth = max_depth
+        self.threshold = threshold
+        self.random_state = random_state
+
+    def fit(self, X, y):
+        self.rf_ = RandomForestClassifier(
+            n_estimators=self.n_estimators,
+            max_depth=self.max_depth,
+            class_weight="balanced",
+            random_state=self.random_state,
+            n_jobs=-1,
+        )
+        self.rf_.fit(X, y)
+        self.classes_ = np.array([0, 1])
+        return self
+
+    def predict(self, X):
+        proba = self.rf_.predict_proba(np.array(X))[:, 1]
+        return (proba >= self.threshold).astype(int)
+
+    def predict_proba(self, X):
+        return self.rf_.predict_proba(np.array(X))
+
+
 def build_model():
-    return RandomForestClassifier(
-        n_estimators=200, max_depth=8, class_weight="balanced", random_state=42, n_jobs=-1
-    )
+    # BEST MODEL (exp_013): downsampling 2:1, threshold=0.5 — F1=0.6585
+    return UndersampledRF(n_estimators=200, max_depth=8, ratio=2.0, threshold=0.5)
