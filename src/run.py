@@ -53,6 +53,22 @@ def load_and_prepare():
     for split in [train_df, valid_df]:
         split["congested"] = (split["SPEED"] < threshold).astype(int)
 
+    # Segment-relative stats — derived from train only, applied to both splits
+    # (no leakage: valid_df never contributes to these statistics)
+    seg_stats = train_df.groupby("SEGMENT_ID")["SPEED"].agg(
+        segment_mean_speed="mean",
+        segment_std_speed="std",
+    ).reset_index()
+    seg_stats["segment_std_speed"] = seg_stats["segment_std_speed"].fillna(1.0).clip(lower=0.1)
+
+    train_df = train_df.merge(seg_stats, on="SEGMENT_ID", how="left")
+    valid_df = valid_df.merge(seg_stats, on="SEGMENT_ID", how="left")
+    for split in [train_df, valid_df]:
+        split["speed_vs_seg_mean"] = split["SPEED"] / split["segment_mean_speed"]
+        split["speed_zscore"] = (
+            (split["SPEED"] - split["segment_mean_speed"]) / split["segment_std_speed"]
+        )
+
     # Compute feature superset — model.py selects which to use
     for split in [train_df, valid_df]:
         grp = split.groupby("SEGMENT_ID")["SPEED"]

@@ -17,3 +17,6 @@ exp_015,week5 threshold=0.40 class_weight=balanced RF n=200 depth=8,0.640760,0.5
 exp_016,week5 threshold=0.35 class_weight=balanced RF n=200 depth=8,0.631579,0.498322,0.862119,keep,3.11
 exp_017,week5 downsampling 2:1 + threshold=0.40 combined RF n=200 depth=8,0.655959,0.588473,0.740929,keep,3.13
 exp_018,week5 max-recall downsampling 1:1 + threshold=0.35 RF n=200 depth=8,0.623511,0.484702,0.873730,keep,2.98
+exp_019,segment-relative features: speed_zscore+vs_seg_mean+seg_mean — undersample 2:1 RF n=200 depth=8,0.665365,0.720203,0.618287,keep,3.44
+exp_020,segment-relative features + threshold=0.40 undersample 2:1 RF n=200 depth=8,0.672677,0.644090,0.703919,keep,2.99
+exp_021,segment features + class_weight=balanced + threshold=0.40 RF n=200 depth=8,0.664106,0.560040,0.815675,keep,3.40

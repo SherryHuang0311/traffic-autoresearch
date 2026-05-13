@@ -21,14 +21,18 @@ using only historical speed readings and time-based features.
 
 ### Available feature columns (pre-computed by run.py)
 ```
-SPEED          — current observed speed for the segment
-lag_1..lag_6   — speed at previous 1–6 time steps (per segment)
-rolling_mean_3 — rolling 3-step mean of lag speeds (per segment)
-rolling_std_3  — rolling 3-step std of lag speeds (per segment)
-speed_diff     — SPEED minus lag_1 (instantaneous change)
-HOUR           — hour of day (0–23)
-DAY_OF_WEEK    — day of week (0=Monday … 6=Sunday)
-MONTH          — month of year
+SPEED               — current observed speed for the segment
+lag_1..lag_6        — speed at previous 1–6 time steps (per segment)
+rolling_mean_3      — rolling 3-step mean of lag speeds (per segment)
+rolling_std_3       — rolling 3-step std of lag speeds (per segment)
+speed_diff          — SPEED minus lag_1 (instantaneous change)
+HOUR                — hour of day (0–23)
+DAY_OF_WEEK         — day of week (0=Monday … 6=Sunday)
+MONTH               — month of year
+segment_mean_speed  — per-segment historical mean speed (computed from train only)
+segment_std_speed   — per-segment historical speed std (computed from train only)
+speed_vs_seg_mean   — SPEED / segment_mean_speed (how fast relative to this segment's norm)
+speed_zscore        — (SPEED − segment_mean) / segment_std (standard deviations from normal)
 ```
 
 ---

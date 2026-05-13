@@ -16,6 +16,8 @@ FEATURES = [
     "SPEED", "lag_1", "lag_2", "lag_3", "lag_4", "lag_5", "lag_6",
     "rolling_mean_3", "speed_diff",
     "HOUR", "DAY_OF_WEEK",
+    # segment-relative (new — unlocks ceiling from global threshold)
+    "speed_zscore", "speed_vs_seg_mean", "segment_mean_speed",
 ]
 
 
@@ -90,5 +92,6 @@ class ThresholdRF(BaseEstimator, ClassifierMixin):
 
 
 def build_model():
-    # BEST MODEL (exp_013): downsampling 2:1, threshold=0.5 — F1=0.6585
-    return UndersampledRF(n_estimators=200, max_depth=8, ratio=2.0, threshold=0.5)
+    # BEST MODEL (exp_020): undersample 2:1 + segment features + threshold=0.40
+    # F1=0.6727, P=0.644, R=0.704
+    return UndersampledRF(n_estimators=200, max_depth=8, ratio=2.0, threshold=0.40)
