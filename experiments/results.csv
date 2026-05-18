@@ -20,3 +20,7 @@ exp_018,week5 max-recall downsampling 1:1 + threshold=0.35 RF n=200 depth=8,0.62
 exp_019,segment-relative features: speed_zscore+vs_seg_mean+seg_mean — undersample 2:1 RF n=200 depth=8,0.665365,0.720203,0.618287,keep,3.44
 exp_020,segment-relative features + threshold=0.40 undersample 2:1 RF n=200 depth=8,0.672677,0.644090,0.703919,keep,2.99
 exp_021,segment features + class_weight=balanced + threshold=0.40 RF n=200 depth=8,0.664106,0.560040,0.815675,keep,3.40
+exp_022,week6 HistGradientBoosting class_weight=balanced max_iter=300 depth=6 lr=0.05 + segment features threshold=0.40,0.655261,0.539690,0.833817,discard,3.64
+exp_023,week6 XGBoost undersample 2:1 n=300 depth=6 lr=0.05 + segment features threshold=0.40,0.671150,0.625313,0.724238,discard,2.59
+exp_024,week6 LightGBM undersample 2:1 n=300 depth=6 lr=0.05 num_leaves=63 + segment features threshold=0.40,0.673613,0.627426,0.727141,keep,7.24
+exp_025,week6 LightGBM undersample 2:1 full features incl rolling_std_3 MONTH segment_std_speed threshold=0.40,0.678001,0.637876,0.723512,keep,3.91
