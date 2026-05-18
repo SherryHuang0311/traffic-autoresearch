@@ -101,12 +101,25 @@ runtime_seconds — wall-clock training + eval time
 
 ---
 
-## Ideas to Explore
+## Week 6 Scope Lock (updated after 25 experiments)
 
-- **Model class**: LogisticRegression, RandomForest, GradientBoosting, HistGradientBoosting, SVM
-- **Class imbalance**: `class_weight="balanced"`, threshold tuning on predict_proba
-- **Feature engineering**: more lags (4–6), rolling statistics, speed_diff, segment-relative features
-- **Hyperparameters**: n_estimators, max_depth, learning_rate, regularization strength
+**Story:** Segment-relative features broke an F1 ceiling at 0.658 that hyperparameter tuning
+alone could not cross. LightGBM with full 17-feature set is the current best (F1=0.6780).
+
+**Current best model:** LightGBM, n_estimators=300, max_depth=6, lr=0.05, num_leaves=63,
+undersample 2:1, threshold=0.40. F1=0.6780, P=0.638, R=0.724.
+
+**Locked search space (Week 7 only):**
+- LightGBM hyperparameters: num_leaves, min_child_samples, colsample_bytree, subsample
+- Budget: 5 experiments max
+- Decision threshold stays at 0.40 — no further threshold tuning
+
+**Officially dropped directions:**
+- HistGradientBoosting (tried exp_005, exp_022 — consistently worse)
+- XGBoost (exp_023 — competitive but loses to LightGBM)
+- Threshold below 0.40 (raises recall but drops F1)
+- New model families (scope closed)
+- Redefining congestion label (requires frozen run.py)
 
 ## What NOT to Do
 
@@ -116,3 +129,4 @@ runtime_seconds — wall-clock training + eval time
 - Do not add external data sources or downloads
 - Do not hard-code validation labels into the model
 - Do not change the `build_model()` or `FEATURES` signature
+- Do not open new model families or feature engineering directions (scope is locked)
