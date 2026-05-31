@@ -24,3 +24,8 @@ exp_022,week6 HistGradientBoosting class_weight=balanced max_iter=300 depth=6 lr
 exp_023,week6 XGBoost undersample 2:1 n=300 depth=6 lr=0.05 + segment features threshold=0.40,0.671150,0.625313,0.724238,discard,2.59
 exp_024,week6 LightGBM undersample 2:1 n=300 depth=6 lr=0.05 num_leaves=63 + segment features threshold=0.40,0.673613,0.627426,0.727141,keep,7.24
 exp_025,week6 LightGBM undersample 2:1 full features incl rolling_std_3 MONTH segment_std_speed threshold=0.40,0.678001,0.637876,0.723512,keep,3.91
+exp_026,week7 LightGBM num_leaves=31 undersample 2:1 full 17 features threshold=0.40,0.678024,0.639049,0.722061,keep,4.95
+exp_027,week7 LightGBM num_leaves=127 undersample 2:1 full 17 features threshold=0.40,0.678001,0.637876,0.723512,keep,4.08
+exp_028,week7 LightGBM num_leaves=31 min_child_samples=10 undersample 2:1 full 17 features threshold=0.40,0.678279,0.640645,0.720610,keep,3.48
+exp_029,week7 LightGBM num_leaves=31 min_child_samples=10 colsample=0.8 subsample=0.8 undersample 2:1 full 17 features threshold=0.40,0.680121,0.633856,0.733672,keep,3.49
+exp_030,week7 LightGBM n=500 num_leaves=31 min_child_samples=10 colsample=0.8 subsample=0.8 undersample 2:1 full 17 features threshold=0.40,0.680593,0.635220,0.732946,keep,3.94

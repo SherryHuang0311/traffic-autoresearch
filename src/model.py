@@ -95,11 +95,16 @@ class ThresholdRF(BaseEstimator, ClassifierMixin):
 class UndersampledLGB(BaseEstimator, ClassifierMixin):
     """LightGBM with random undersampling 2:1 + tunable decision threshold."""
     def __init__(self, n_estimators=300, max_depth=6, learning_rate=0.05,
-                 num_leaves=63, ratio=2.0, threshold=0.40, random_state=42):
+                 num_leaves=63, min_child_samples=20,
+                 colsample_bytree=1.0, subsample=1.0,
+                 ratio=2.0, threshold=0.40, random_state=42):
         self.n_estimators = n_estimators
         self.max_depth = max_depth
         self.learning_rate = learning_rate
         self.num_leaves = num_leaves
+        self.min_child_samples = min_child_samples
+        self.colsample_bytree = colsample_bytree
+        self.subsample = subsample
         self.ratio = ratio
         self.threshold = threshold
         self.random_state = random_state
@@ -119,6 +124,9 @@ class UndersampledLGB(BaseEstimator, ClassifierMixin):
             max_depth=self.max_depth,
             learning_rate=self.learning_rate,
             num_leaves=self.num_leaves,
+            min_child_samples=self.min_child_samples,
+            colsample_bytree=self.colsample_bytree,
+            subsample=self.subsample,
             random_state=self.random_state,
             verbosity=-1,
             n_jobs=-1,
@@ -136,8 +144,11 @@ class UndersampledLGB(BaseEstimator, ClassifierMixin):
 
 
 def build_model():
-    # BEST MODEL (exp_025): LightGBM undersample 2:1 + full features + threshold=0.40
-    # F1=0.6780, P=0.638, R=0.724
-    # Features: all 17 incl rolling_std_3, MONTH, segment_std_speed
-    return UndersampledLGB(n_estimators=300, max_depth=6, learning_rate=0.05,
-                           num_leaves=63, ratio=2.0, threshold=0.40)
+    # FINAL BEST MODEL (exp_030): LightGBM fully tuned + full 17 features
+    # F1=0.6806, P=0.635, R=0.733
+    # n=500, depth=6, lr=0.05, num_leaves=31, min_child_samples=10,
+    # colsample_bytree=0.8, subsample=0.8, undersample 2:1, threshold=0.40
+    return UndersampledLGB(n_estimators=500, max_depth=6, learning_rate=0.05,
+                           num_leaves=31, min_child_samples=10,
+                           colsample_bytree=0.8, subsample=0.8,
+                           ratio=2.0, threshold=0.40)
