@@ -84,7 +84,7 @@ def build():
         title_s))
     s.append(HRFlowable(width="100%", thickness=1, color=BLUE, spaceAfter=4))
     s.append(Paragraph("Sherry Huang &nbsp;|&nbsp; STAT 390 Capstone &nbsp;|&nbsp; "
-        "University of Illinois Urbana-Champaign &nbsp;|&nbsp; xiyuh5@illinois.edu", author_s))
+        "Northwestern University &nbsp;|&nbsp; xiyuhuang2026@u.northwestern.edu", author_s))
     s.append(Paragraph("Code: github.com/SherryHuang0311/traffic-autoresearch", author_s))
     s.append(SP(6))
 

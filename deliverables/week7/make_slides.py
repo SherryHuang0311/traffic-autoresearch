@@ -161,7 +161,7 @@ txbox(s, "Segment-relative features break a labeling-driven F1 ceiling",
       Inches(0.5), Inches(1.5), Inches(12.3), Inches(0.6),
       size=20, bold=False, color=LBLUE, align=PP_ALIGN.CENTER, italic=True)
 
-txbox(s, "STAT 390 Capstone  •  Sherry Huang  •  UIUC",
+txbox(s, "STAT 390 Capstone  •  Sherry Huang  •  Northwestern University",
       Inches(0.5), Inches(2.7), Inches(12.3), Inches(0.45),
       size=16, color=WHITE, align=PP_ALIGN.CENTER)
 
@@ -246,11 +246,11 @@ txbox(s, "Baseline: Logistic Regression (lags 1–3 + time features)",
       size=15, bold=True, color=NAVY)
 mini_table(s, [
     ["", "F1", "Precision", "Recall", "Notes"],
-    ["exp_001 — Logistic Regression baseline", "0.5598", "0.7549", "0.4448", "Starting point"],
-    ["exp_030 — Final LightGBM (validation)", "0.6806", "0.6352", "0.7329", "+21.6% F1"],
-    ["exp_030 — Final LightGBM (TEST SET)", "0.6183", "0.5639", "0.6843", "Held-out, opened once"],
-], [Inches(4.3), Inches(0.9), Inches(1.1), Inches(1.0), Inches(4.0)],
-   Inches(3.75), Inches(3.75), row_h=Inches(0.55), text_size=13)
+    ["exp_001  Logistic Regression baseline", "0.5598", "0.7549", "0.4448", "Starting point"],
+    ["exp_030  Final LightGBM (validation)", "0.6806", "0.6352", "0.7329", "+21.6% F1 gain"],
+    ["exp_030  Final LightGBM (TEST SET)", "0.6183", "0.5639", "0.6843", "Held-out, once"],
+], [Inches(4.6), Inches(0.85), Inches(1.05), Inches(0.95), Inches(2.5)],
+   Inches(0.3), Inches(3.75), row_h=Inches(0.55), text_size=13)
 
 # ════════════════════════════════════════════════════════════════════════════
 # SLIDE 4 — Loop Design + Experiment Trace
@@ -473,16 +473,16 @@ boxes = [
 
 for i, (title, items, fill, txt_col) in enumerate(boxes):
     x = Inches(0.3 + (i % 2) * 6.5)
-    y = Inches(1.9 + (i // 2) * 2.65)
-    rect(s, x, y, Inches(6.2), Inches(2.45), fill=fill)
-    txbox(s, title, x + Inches(0.15), y + Inches(0.1), Inches(5.9), Inches(0.4),
+    y = Inches(1.9 + (i // 2) * 2.52)
+    rect(s, x, y, Inches(6.2), Inches(2.35), fill=fill)
+    txbox(s, title, x + Inches(0.15), y + Inches(0.1), Inches(5.9), Inches(0.38),
           size=13, bold=True, color=txt_col)
-    bullet_box(s, items, x + Inches(0.15), y + Inches(0.5), Inches(5.9), Inches(1.85),
+    bullet_box(s, items, x + Inches(0.15), y + Inches(0.5), Inches(5.9), Inches(1.75),
                size=12, color=txt_col, gap=1)
 
-txbox(s, "The loop shifts the bottleneck from execution to diagnosis.\n"
-         "The most valuable contribution was asking the right question — not running the experiments.",
-      Inches(0.5), Inches(7.1), Inches(12.3), Inches(0.35),
+txbox(s, "Key insight: the loop shifts the bottleneck from execution to diagnosis — "
+         "asking the right question matters more than running more experiments.",
+      Inches(0.5), Inches(6.97), Inches(12.3), Inches(0.42),
       size=13, bold=True, color=LBLUE, italic=True, align=PP_ALIGN.CENTER)
 
 # ════════════════════════════════════════════════════════════════════════════
