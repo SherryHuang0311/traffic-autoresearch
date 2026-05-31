@@ -100,8 +100,8 @@ def slide_num(slide, n, total=8):
     txbox(slide, f"{n} / {total}", Inches(12.5), Inches(7.15), Inches(0.8), Inches(0.3),
           size=10, color=DGREY, align=PP_ALIGN.RIGHT)
 
-def bullet_box(slide, items, l, t, w, h, size=17, color=DGREY, gap=0.05):
-    """Simple bulleted text box."""
+def bullet_box(slide, items, l, t, w, h, size=17, color=DGREY, gap=4):
+    """Simple bulleted text box. gap is in points (e.g. 4 = 4pt before each bullet)."""
     tf = slide.shapes.add_textbox(l, t, w, h)
     tf.text_frame.word_wrap = True
     first = True
@@ -111,7 +111,7 @@ def bullet_box(slide, items, l, t, w, h, size=17, color=DGREY, gap=0.05):
             first = False
         else:
             p = tf.text_frame.add_paragraph()
-        p.space_before = Pt(gap * 72)
+        p.space_before = Pt(gap)
         run = p.add_run()
         bold_part = ""
         rest = item
@@ -315,7 +315,7 @@ prob_items = [
     "→ Hard ceiling at F1 ≈ 0.658 regardless of model or tuning",
 ]
 bullet_box(s, prob_items, Inches(0.5), Inches(2.05), Inches(5.8), Inches(4.5),
-           size=15, color=RED, gap=2)
+           size=15, color=RED, gap=4)
 
 # Fix box
 rect(s, Inches(6.7), Inches(1.4), Inches(6.2), Inches(5.5), fill=LGREEN)
@@ -332,7 +332,7 @@ fix_items = [
     "F1: 0.6585 → 0.6727 in one step (+0.014)",
 ]
 bullet_box(s, fix_items, Inches(6.9), Inches(2.05), Inches(5.8), Inches(4.5),
-           size=15, color=GREEN, gap=2)
+           size=15, color=GREEN, gap=4)
 
 # ════════════════════════════════════════════════════════════════════════════
 # SLIDE 6 — Final Result + Stability
@@ -371,7 +371,7 @@ config = [
     "17 features (all segment-relative included)",
 ]
 bullet_box(s, config, Inches(0.5), Inches(4.15), Inches(5.6), Inches(2.7),
-           size=13, color=WHITE, gap=1)
+           size=13, color=WHITE, gap=4)
 
 # Stability table
 txbox(s, "Stability across 5 seeds:", Inches(6.5), Inches(3.55), Inches(6.5), Inches(0.4),
@@ -414,7 +414,7 @@ worked = [
     "**Git discipline** → zero lost experiments, zero accidental overrides",
 ]
 bullet_box(s, worked, Inches(0.5), Inches(2.05), Inches(5.8), Inches(4.8),
-           size=15, color=GREEN, gap=3)
+           size=15, color=GREEN, gap=4)
 
 # Failed
 rect(s, Inches(6.7), Inches(1.4), Inches(6.2), Inches(5.6), fill=LRED)
@@ -429,7 +429,7 @@ failed = [
     "**Single-seed evaluation** → kept lucky runs without knowing it",
 ]
 bullet_box(s, failed, Inches(6.9), Inches(2.05), Inches(5.8), Inches(4.8),
-           size=15, color=RED, gap=3)
+           size=15, color=RED, gap=4)
 
 # ════════════════════════════════════════════════════════════════════════════
 # SLIDE 8 — Reflection + Limits
@@ -478,7 +478,7 @@ for i, (title, items, fill, txt_col) in enumerate(boxes):
     txbox(s, title, x + Inches(0.15), y + Inches(0.1), Inches(5.9), Inches(0.38),
           size=13, bold=True, color=txt_col)
     bullet_box(s, items, x + Inches(0.15), y + Inches(0.5), Inches(5.9), Inches(1.75),
-               size=12, color=txt_col, gap=1)
+               size=12, color=txt_col, gap=4)
 
 txbox(s, "Key insight: the loop shifts the bottleneck from execution to diagnosis — "
          "asking the right question matters more than running more experiments.",
