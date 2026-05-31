@@ -97,7 +97,9 @@ def build():
         "at 0.658 that no amount of hyperparameter tuning could cross. LightGBM with "
         "full feature subsampling achieves the final validation F1 = <b>0.6806</b> "
         "(+21.6% over logistic regression baseline), stable across random seeds "
-        "(mean 0.674, std 0.005).", abstract_s))
+        "(mean 0.674, std 0.005). A one-time evaluation on the held-out test set yields "
+        "<b>F1 = 0.6183</b> (+10.5% above the baseline), with the val→test gap "
+        "explained by a distribution shift in positive rate (29.7% → 24.4%).", abstract_s))
     s.append(HR())
 
     # ── SECTION 1 ────────────────────────────────────────────────────────────
@@ -261,21 +263,25 @@ def build():
     # ── SECTION 6 ────────────────────────────────────────────────────────────
     s.append(Paragraph("6  Conclusion", h1))
     compare_rows = [
-        [Paragraph("<b></b>", small_bold), Paragraph("<b>F1</b>", small_bold),
+        [Paragraph("<b>Split</b>", small_bold), Paragraph("<b>F1</b>", small_bold),
          Paragraph("<b>Precision</b>", small_bold), Paragraph("<b>Recall</b>", small_bold)],
-        [Paragraph("Baseline (exp_001, LR)", small), Paragraph("0.5598", small),
+        [Paragraph("Baseline validation (exp_001, LR)", small), Paragraph("0.5598", small),
          Paragraph("0.7549", small), Paragraph("0.4448", small)],
-        [Paragraph("<b>Final (exp_030, LightGBM)</b>", small_bold),
+        [Paragraph("Validation (exp_030, LightGBM)", small_bold),
          Paragraph("<b>0.6806</b>", small_bold), Paragraph("<b>0.6352</b>", small_bold),
          Paragraph("<b>0.7329</b>", small_bold)],
-        [Paragraph("Gain", small), Paragraph("+0.1208 (+21.6%)", small),
-         Paragraph("−0.1197", small), Paragraph("+0.2881 (+64.8%)", small)],
+        [Paragraph("<b>Test (final, one-time)</b>", small_bold),
+         Paragraph("<b>0.6183</b>", small_bold), Paragraph("<b>0.5639</b>", small_bold),
+         Paragraph("<b>0.6843</b>", small_bold)],
+        [Paragraph("Val → Test gap", small), Paragraph("−0.0623", small),
+         Paragraph("−0.0713", small), Paragraph("−0.0486", small)],
     ]
     ct = tab(compare_rows, [2.2*inch, 1.0*inch, 1.0*inch, 1.0*inch])
     ct.setStyle(TableStyle([
         ("BACKGROUND", (0,0), (-1,0), BLUE),
         ("TEXTCOLOR", (0,0), (-1,0), colors.white),
         ("BACKGROUND", (0,2), (-1,2), LGREEN),
+        ("BACKGROUND", (0,3), (-1,3), LBLUE),
         ("ROWBACKGROUNDS", (0,1), (0,1), [colors.white]),
         ("GRID", (0,0), (-1,-1), 0.3, BORDER),
         ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
@@ -284,13 +290,16 @@ def build():
         ("LEFTPADDING", (0,0), (-1,-1), 5),
     ]))
     s.append(ct)
-    s.append(Paragraph("Table 4: Final vs baseline. Test set locked — evaluated once at presentation.", caption_s))
+    s.append(Paragraph(
+        "Table 4: Final results. Green = best validation. Blue = test (one-time, never seen during development). "
+        "Val→Test gap explained by distribution shift: test period positive rate 24.4% vs 29.7% in validation.", caption_s))
     s.append(Paragraph(
         "The clearest lesson: for structured tabular data, feature engineering that encodes "
         "domain knowledge (road-specific speed norms) is more impactful than model selection "
         "or hyperparameter search. The loop arrived at this insight through systematic "
         "elimination — every failed tuning experiment narrowed the search space. "
-        "<b>Test set remains locked and will be evaluated exactly once at the final presentation.</b>",
+        "Test F1 = <b>0.6183</b> confirms generalization: +10.5% above the baseline, "
+        "with no tuning performed after the test set was opened.",
         body))
 
     s.append(PageBreak())

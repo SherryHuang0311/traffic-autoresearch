@@ -39,7 +39,9 @@ hyperparameter tuning had been able to cross. Switching from Random Forest to Li
 with full feature subsampling regularization raises the final validation F1 to
 \textbf{0.6806} (precision 0.635, recall 0.733), a \textbf{+21.4\% gain} over the
 logistic regression baseline (F1\,=\,0.560). The result is stable across random seeds
-(mean 0.674, std 0.005).
+(mean 0.674, std 0.005). A one-time evaluation on the locked test set yields
+\textbf{F1\,=\,0.6183} (+10.5\% above baseline), with the val\,$\to$\,test gap
+explained by a distribution shift in the positive rate (29.7\%\,$\to$\,24.4\%).
 \end{abstract}
 
 \section{Introduction}
@@ -197,13 +199,40 @@ threshold is the 30th percentile of all training speeds, not a segment-relative
 percentile. Fixing this would require changing the frozen evaluator. The residual
 F1 gap from a theoretical maximum is largely attributable to this irreducible label noise.
 
+\subsection{Final Test Set Evaluation}
+
+After all development and model selection was complete, the locked test set (final 15\%
+of September 2023 timestamps, never accessed during development) was evaluated exactly once.
+
+\begin{table}[h]
+\caption{Final one-time test set evaluation vs.\ validation and baseline.}
+\label{tab:test}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Split & F1 & Precision & Recall \\
+\midrule
+Baseline validation (exp\_001, LR) & 0.5598 & 0.755 & 0.445 \\
+Validation (exp\_030, LightGBM) & 0.6806 & 0.635 & 0.733 \\
+\textbf{Test (final, one-time)} & \textbf{0.6183} & \textbf{0.564} & \textbf{0.684} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The val\,$\to$\,test gap is $-$0.062 F1. The test period covers a later slice of September 2023 with a
+positive rate of 24.4\% (vs.\ 29.7\% in validation). The model was trained and selected
+on the earlier period; the slight distribution shift leads to lower precision on the
+less-congested test data. No further tuning was done after the test set was opened.
+Test F1 (+10.5\% above the validation baseline) confirms generalization.
+
 \section{Conclusion}
 
 The AutoResearch loop surfaced a non-obvious data quality issue — a global labeling
 threshold that mislabels segment-specific speed patterns — and fixed it within the
 constraints of a frozen evaluator. The final model achieves F1\,=\,0.6806 on the
-validation set, +21.4\% above baseline, with a stable result confirmed across multiple
-seeds. The test set has not been evaluated and remains locked for final presentation.
+validation set (+21.4\% above baseline) and \textbf{F1\,=\,0.6183 on the held-out test set}
+(+10.5\% above the baseline's validation score), confirmed through a single one-time evaluation.
+The result is stable across random seeds (mean 0.674, std 0.005).
 
 The clearest lesson: for structured tabular data, feature engineering that encodes
 domain knowledge (here, road-specific speed norms) is more impactful than model

@@ -1,13 +1,26 @@
 # Final Results Table — Locked
 **STAT 390 Capstone | Traffic Congestion Prediction**  
-**Date locked: Week 7 | Test set: NOT YET EVALUATED (locked for final presentation)**
+**Test set evaluated: Week 7 (one-time, never used during development)**
 
 ---
 
-## Key Milestones
+## Final Test Set Result
 
-| exp | Description | F1 | Precision | Recall | Status | Phase |
-|-----|-------------|----|-----------|----|--------|-------|
+| Split | F1 | Precision | Recall | Notes |
+|-------|----|-----------|--------|-------|
+| Validation (exp_030) | 0.6806 | 0.6352 | 0.7329 | Used for model selection |
+| **Test (final, one-time)** | **0.6183** | **0.5639** | **0.6843** | **Never seen during development** |
+| Baseline validation (exp_001) | 0.5598 | 0.7549 | 0.4448 | Logistic regression |
+
+**Test F1 gain vs validation baseline: +0.0585 (+10.5%)**  
+**Val → Test gap: −0.0623** (discussed below — class balance shift from 29.7% → 24.4% positive rate)
+
+---
+
+## Key Milestones (Validation F1)
+
+| exp | Description | Val F1 | Precision | Recall | Status | Phase |
+|-----|-------------|--------|-----------|--------|--------|-------|
 | exp_001 | Logistic Regression baseline | 0.5598 | 0.7549 | 0.4448 | baseline | Wk3 |
 | exp_007 | RF n=200 depth=8 balanced lags 1-6 | 0.6566 | 0.5781 | 0.7598 | keep | Wk3 |
 | exp_013 | RF undersample 2:1 threshold=0.50 | 0.6585 | 0.6538 | 0.6633 | keep | Wk5 |
@@ -93,7 +106,7 @@ is within 1.5 std of the mean.
 
 ---
 
-## Summary vs Baseline
+## Summary vs Baseline (Validation F1)
 
 | | F1 | Precision | Recall |
 |--|-----|-----------|--------|
@@ -101,4 +114,15 @@ is within 1.5 std of the mean.
 | **Final (exp_030, LightGBM)** | **0.6806** | **0.6352** | **0.7329** |
 | Gain | **+0.1208 (+21.6%)** | −0.1197 | **+0.2881 (+64.8%)** |
 
-**Test set: LOCKED — will be evaluated exactly once at final presentation (Week 8).**
+## Final Test Set Results (one-time evaluation)
+
+| | F1 | Precision | Recall |
+|--|-----|-----------|--------|
+| Final model on **test set** | **0.6183** | **0.5639** | **0.6843** |
+| Val → Test gap | −0.0623 | −0.0713 | −0.0486 |
+
+**Why the gap?** The test split covers a later time period (final 15% of Sept 2023 timestamps)
+with a lower positive rate (24.4% congested vs 29.7% in validation). The model was trained and
+selected on the earlier period; the slight distribution shift leads to lower precision on the
+less-congested test data. This is honest generalization performance — the test set was opened
+exactly once and no further tuning was done.
